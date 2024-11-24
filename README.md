@@ -10,5 +10,4 @@ Cymbal Bank is interested in integrating a centralized security monitoring platf
 
 
 1. Task 1: Create a continuous export pipeline to Pub/Sub.
-2. 
  
