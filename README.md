@@ -9,5 +9,5 @@ Cymbal Bank was founded in 1920 under the name Troxler.  Cymbal Group acquired t
 Cymbal Bank is interested in integrating a centralized security monitoring platform to help monitor threats and remediate vulnerabilities across their Google Cloud resources in their corporate banking applications. As a Cloud Security Engineer, you are tasked with learning about Security Command Center's export and analytics features so you can deliver a presentation to the CTO on the services' benefits. 
 
 
-1. Task 1: Create a continuous export pipeline to Pub/
+1. Task 1: Create a continuous export pipeline to Pub
  
