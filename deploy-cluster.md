@@ -130,6 +130,11 @@ Delete GKE service
 `kubectl delete service monolith
 kubectl delete deployment monolith`
 
+
+
+### link for this lab :
+https://www.cloudskillsboost.google/games/5890/labs/37473
+
 Delete GKE cluster
 
 `gcloud container clusters delete fancy-cluster lab region`
