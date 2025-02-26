@@ -1,5 +1,5 @@
 # gcp-lab 
-   
+    
 ### Analyzing Findings with Security Command Center    
 
 Cymbal Bank is an American retail bank with over 2,000 branches in all 50 states. It offers comprehensive debit and credit services that are built on top of a robust payments platform. Cymbal Bank is a digital ly transforming legacy financial services institution.
