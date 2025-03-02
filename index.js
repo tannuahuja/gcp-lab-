@@ -1,10 +1,11 @@
-const functions = require("firebase-functions");
+const { onRequest } = require("firebase-functions/v2/https"); // No Firebase needed
 const axios = require("axios");
+require("dotenv").config();
 
 const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY;
 const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET;
 
-// Detect User Query
+// Function to detect query type
 function detectQueryType(query) {
   if (query.includes("flight")) return "flight";
   if (query.includes("hotel")) return "hotel";
@@ -13,49 +14,38 @@ function detectQueryType(query) {
   return "unknown";
 }
 
-// Fetch Flights
+// Fetch flights
 async function searchFlight() {
-  const url = "https://test.api.amadeus.com/v2/shopping/flight-offers";
-  const response = await axios.get(url, { headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` } });
-  return response.data;
+  try {
+    const response = await axios.get("https://test.api.amadeus.com/v2/shopping/flight-offers", {
+      headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` },
+    });
+    return response.data || "No flight data available.";
+  } catch (error) {
+    return "Error fetching flight details.";
+  }
 }
 
-// Fetch Hotels
+// Fetch hotels
 async function searchHotel() {
-  const url = "https://test.api.amadeus.com/v2/shopping/hotel-offers";
-  const response = await axios.get(url, { headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` } });
-  return response.data;
+  try {
+    const response = await axios.get("https://test.api.amadeus.com/v2/shopping/hotel-offers", {
+      headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` },
+    });
+    return response.data || "No hotel data available.";
+  } catch (error) {
+    return "Error fetching hotel details.";
+  }
 }
 
-// Recommended Places
-async function recommendPlaces() {
+// Fetch recommended places
+function recommendPlaces() {
   return ["Taj Mahal", "Gateway of India", "Mysore Palace"];
 }
 
-// Generate Itinerary
-async function generateItinerary(destination, days) {
-  return `Here is a suggested ${days}-day itinerary for ${destination}: Day 1: Explore city, Day 2: Visit attractions, Day 3: Enjoy local food.`;
-}
-
-// Webhook Entry
-exports.mytravelwebhook = functions.https.onRequest(async (req, res) => {
-  const params = req.body.sessionInfo.parameters;
-  const queryText = req.body.text.toLowerCase();
-  const queryType = detectQueryType(queryText);
-  
-  let responseMessage = "I couldn't find what you're looking for.";
-
-  try {
-    if (queryType === "flight") responseMessage = await searchFlight();
-    else if (queryType === "hotel") responseMessage = await searchHotel();
-    else if (queryType === "places") responseMessage = await recommendPlaces();
-    else if (queryType === "itinerary") responseMessage = await generateItinerary(params.destination, params.trip_duration);
-  } catch (error) {
-    responseMessage = "Sorry, something went wrong.";
+// Generate itinerary
+function generateItinerary(query) {
+  if (query.includes("Goa")) {
+    return "Day 1: Beaches & markets. Day 2: Old Goa churches. Day 3: Adventure & nightlife.";
   }
-
-  res.json({
-    fulfillment_response: { messages: [{ text: { text: [responseMessage] } }] },
-    sessionInfo: { parameters: { status: "final" } }
-  });
-});
+  ret
