@@ -1,0 +1,186 @@
+# **Complete Guide to Building a Travel Chatbot in Dialogflow CX**
+
+## **1. Create the Agent in Dialogflow CX**
+1. Go to [Dialogflow CX Console](https://dialogflow.cloud.google.com/)
+2. Click **"Create Agent"**
+3. Enter **Agent Name**: `TravelBot`
+4. Select **Default Language**: English (or your preferred language)
+5. Select **Google Project** (or create a new one)
+6. Click **"Create"**
+
+---
+
+## **2. Create Intents**
+### **(A) Default Welcome Intent (For Greetings like "Hi", "Hello")**
+1. Go to **Intents → Create Intent**
+2. **Intent Name**: `welcome_intent`
+3. **Training Phrases:**
+   ```
+   Hi
+   Hello
+   Hey there
+   Good morning
+   Good evening
+   ```
+4. **Agent Response:**
+   ```
+   Hello! Welcome to TravelBot. How can I assist you today? ✈️🏨🌍
+   ```
+5. **Click "Save"**
+
+### **(B) Main Travel Intent (For Handling All Travel Requests)**
+1. Go to **Intents → Create Intent**
+2. **Intent Name**: `main_travel_intent`
+3. **Training Phrases:**
+   ```
+   I want to book a flight from {from_city} to {to_city} on {date}
+   Find hotels in {location}
+   Suggest a travel itinerary for {destination}
+   Show me flights from {from_city} to {to_city}
+   Recommend tourist places in {location}
+   Plan a {days}-day trip to {destination}
+   ```
+4. **Parameters:**
+   - `from_city (sys.geo-city) → Required`
+   - `to_city (sys.geo-city) → Required`
+   - `date (sys.date) → Optional`
+   - `location (sys.geo-city) → Optional`
+   - `destination (sys.geo-city) → Optional`
+   - `days (sys.number) → Optional`
+5. **Click "Save"**
+
+---
+
+## **3. Create Pages and Routes**
+
+### **(A) Welcome Page (For Initial Greetings)**
+1. **Go to "Pages" → Default Start Page**
+2. Click **"Add Route"**
+3. **Condition:** `#welcome_intent`
+4. **Transition to:** Travel Plan Page
+5. **Agent Response:**
+   ```
+   Welcome to TravelBot! ✈️🏨🌍 How can I help you today?
+   ```
+6. **Click "Save"**
+
+### **(B) Travel Plan Page (For Handling User Requests)**
+1. **Go to "Pages" → Click "Create Page"**
+2. **Page Name:** `Travel Plan`
+3. Click **"Add Route"**
+   - **Condition:** `#main_travel_intent`
+   - **Transition To:** `Get Details` Page
+   - **Enable Webhook Call** (Important!)
+4. **Click "Save"**
+
+### **(C) Get Details Page (For Collecting Travel Info)**
+1. **Go to "Pages" → Click "Create Page"**
+2. **Page Name:** `Get Details`
+3. **Add Parameters:**
+   - `from_city (sys.geo-city) → Required`
+   - `to_city (sys.geo-city) → Required`
+   - `date (sys.date) → Optional`
+   - `location (sys.geo-city) → Optional`
+   - `destination (sys.geo-city) → Optional`
+   - `days (sys.number) → Optional`
+4. **Agent Response:**
+   ```
+   I am fetching details for you. Please wait... ✈️🏨🌍
+   ```
+5. **Click "Save"**
+
+### **(D) Thank You Page (Final Message After Providing Info)**
+1. **Go to "Pages" → Click "Create Page"**
+2. **Page Name:** `Thank You`
+3. **Agent Response:**
+   ```
+   Thank you for using our travel planner! 😊 Have a great trip! 🚀
+   ```
+4. **Click "Save"**
+
+---
+
+## **4. Webhook (Google Cloud Function)**
+
+### **(A) index.js**
+```javascript
+const { onRequest } = require("firebase-functions/v2/https");
+const axios = require("axios");
+require("dotenv").config();
+
+const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY;
+
+function detectQueryType(parameters) {
+    if (parameters.to_city && parameters.from_city) return "flight";
+    if (parameters.location) return "hotel";
+    if (parameters.destination) return "itinerary";
+    return "unknown";
+}
+
+async function searchFlight(from_city, to_city, date) {
+    try {
+        const response = await axios.get(`https://test.api.amadeus.com/v2/shopping/flight-offers?origin=${from_city}&destination=${to_city}&departureDate=${date}`, {
+            headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` },
+        });
+        return response.data || "No flight data available.";
+    } catch (error) {
+        return "Error fetching flight details.";
+    }
+}
+
+async function searchHotel(location) {
+    try {
+        const response = await axios.get(`https://test.api.amadeus.com/v2/shopping/hotel-offers?cityCode=${location}`, {
+            headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` },
+        });
+        return response.data || "No hotel data available.";
+    } catch (error) {
+        return "Error fetching hotel details.";
+    }
+}
+
+function generateItinerary(destination, days) {
+    return `Here is a ${days}-day itinerary for ${destination}: \nDay 1: Explore city center.\nDay 2: Visit famous attractions.\nDay 3: Try local experiences.`;
+}
+
+exports.mytravelwebhook = onRequest(async (req, res) => {
+    const parameters = req.body.sessionInfo.parameters || {};
+    const queryType = detectQueryType(parameters);
+    let responseMessage = "I couldn't find what you're looking for.";
+
+    try {
+        if (queryType === "flight") {
+            responseMessage = await searchFlight(parameters.from_city, parameters.to_city, parameters.date);
+        } else if (queryType === "hotel") {
+            responseMessage = await searchHotel(parameters.location);
+        } else if (queryType === "itinerary") {
+            responseMessage = generateItinerary(parameters.destination, parameters.days);
+        }
+    } catch (error) {
+        responseMessage = "Sorry, something went wrong.";
+    }
+
+    res.json({
+        fulfillment_response: { messages: [{ text: { text: [responseMessage] } }] },
+    });
+});
+```
+
+### **(B) package.json**
+```json
+{
+  "name": "travel-bot-webhook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.3.0",
+    "dotenv": "^16.0.3"
+  },
+  "engines": {
+    "node": "20"
+  }
+}
+```
+
+✅ **Now, your chatbot should work perfectly!** 🎉
+
