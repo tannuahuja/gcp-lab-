@@ -48,4 +48,25 @@ function generateItinerary(query) {
   if (query.includes("Goa")) {
     return "Day 1: Beaches & markets. Day 2: Old Goa churches. Day 3: Adventure & nightlife.";
   }
-  ret
+  return "Day 1: Explore city. Day 2: Visit attractions. Day 3: Enjoy local food.";
+}
+
+// Webhook handler
+exports.mytravelwebhook = onRequest(async (req, res) => {
+  const queryText = req.body.text?.toLowerCase() || "";
+  const queryType = detectQueryType(queryText);
+  let responseMessage = "I couldn't find what you're looking for.";
+
+  try {
+    if (queryType === "flight") responseMessage = await searchFlight();
+    else if (queryType === "hotel") responseMessage = await searchHotel();
+    else if (queryType === "places") responseMessage = recommendPlaces();
+    else if (queryType === "itinerary") responseMessage = generateItinerary(queryText);
+  } catch (error) {
+    responseMessage = "Sorry, something went wrong.";
+  }
+
+  res.json({
+    fulfillment_response: { messages: [{ text: { text: [responseMessage] } }] },
+  });
+});
