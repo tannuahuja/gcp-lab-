@@ -1,4 +1,4 @@
-const { onRequest } = require("firebase-functions/v2/https");
+const functions = require("@google-cloud/functions-framework");
 const axios = require("axios");
 require("dotenv").config();
 
@@ -11,24 +11,46 @@ function detectQueryType(parameters) {
     return "unknown";
 }
 
+async function getAccessToken() {
+    try {
+        const response = await axios.post("https://test.api.amadeus.com/v1/security/oauth2/token", {
+            grant_type: "client_credentials",
+            client_id: process.env.AMADEUS_CLIENT_ID,
+            client_secret: process.env.AMADEUS_CLIENT_SECRET
+        });
+        return response.data.access_token;
+    } catch (error) {
+        console.error("Error fetching access token:", error);
+        return null;
+    }
+}
+
 async function searchFlight(from_city, to_city, date) {
+    const token = await getAccessToken();
+    if (!token) return "Error: Unable to authenticate with Amadeus API.";
+
     try {
         const response = await axios.get(`https://test.api.amadeus.com/v2/shopping/flight-offers?origin=${from_city}&destination=${to_city}&departureDate=${date}`, {
-            headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` },
+            headers: { Authorization: `Bearer ${token}` },
         });
         return response.data || "No flight data available.";
     } catch (error) {
+        console.error("Flight search error:", error);
         return "Error fetching flight details.";
     }
 }
 
 async function searchHotel(location) {
+    const token = await getAccessToken();
+    if (!token) return "Error: Unable to authenticate with Amadeus API.";
+
     try {
         const response = await axios.get(`https://test.api.amadeus.com/v2/shopping/hotel-offers?cityCode=${location}`, {
-            headers: { Authorization: `Bearer ${AMADEUS_API_KEY}` },
+            headers: { Authorization: `Bearer ${token}` },
         });
         return response.data || "No hotel data available.";
     } catch (error) {
+        console.error("Hotel search error:", error);
         return "Error fetching hotel details.";
     }
 }
@@ -40,7 +62,7 @@ function generateItinerary(destination, days) {
     return `Here is a ${days}-day itinerary for ${destination}: \nDay 1: Explore city center.\nDay 2: Visit famous attractions.\nDay 3: Try local experiences.`;
 }
 
-exports.mytravelwebhook = onRequest(async (req, res) => {
+functions.http("mytravelwebhook", async (req, res) => {
     const parameters = req.body.sessionInfo.parameters || {};
     const queryType = detectQueryType(parameters);
     let responseMessage = "I couldn't find what you're looking for.";
@@ -54,6 +76,7 @@ exports.mytravelwebhook = onRequest(async (req, res) => {
             responseMessage = generateItinerary(parameters.destination, parameters.days);
         }
     } catch (error) {
+        console.error("Webhook error:", error);
         responseMessage = "Sorry, something went wrong.";
     }
 
