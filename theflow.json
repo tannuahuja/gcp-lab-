@@ -1,0 +1,114 @@
+{
+  "displayName": "TravelBotFlow",
+  "description": "Handles travel inquiries including flights, hotels, and itineraries.",
+  "transitionRoutes": [
+    {
+      "intent": "WelcomeIntent",
+      "triggerFulfillment": {
+        "messages": [{ "text": { "text": ["Hello! Welcome to TravelBot! How may I assist you today?"] } }]
+      },
+      "targetPage": "UserQueryPage"
+    },
+    {
+      "intent": "FlightDetailsIntent",
+      "triggerFulfillment": {
+        "webhook": "https://us-east4-l-ulti-tf-48hours-d55d.cloudfunctions.net/mytravelwebhook"
+      }
+    },
+    {
+      "intent": "HotelDetailsIntent",
+      "triggerFulfillment": {
+        "webhook": "https://us-east4-l-ulti-tf-48hours-d55d.cloudfunctions.net/mytravelwebhook"
+      }
+    },
+    {
+      "intent": "ItineraryIntent",
+      "triggerFulfillment": {
+        "webhook": "https://us-east4-l-ulti-tf-48hours-d55d.cloudfunctions.net/mytravelwebhook"
+      }
+    },
+    {
+      "intent": "FallbackIntent",
+      "triggerFulfillment": {
+        "messages": [{ "text": { "text": ["I'm sorry, I didn't understand that. Can you rephrase?"] } }]
+      },
+      "targetPage": "UserQueryPage"
+    }
+  ],
+  "pages": [
+    {
+      "displayName": "UserQueryPage",
+      "transitionRoutes": []
+    }
+  ],
+  "intents": [
+    {
+      "displayName": "WelcomeIntent",
+      "trainingPhrases": [
+        "Hi",
+        "Hello",
+        "Hey there",
+        "Good morning",
+        "Good evening",
+        "Hey!",
+        "Hi, how are you?"
+      ]
+    },
+    {
+      "displayName": "FlightDetailsIntent",
+      "parameters": [
+        { "id": "from_city", "entityType": "@sys.geo-city", "isRequired": true },
+        { "id": "to_city", "entityType": "@sys.geo-city", "isRequired": true },
+        { "id": "date", "entityType": "@sys.date", "isRequired": true }
+      ],
+      "trainingPhrases": [
+        "I need a flight from @from_city to @to_city on @date",
+        "Find me a flight from @from_city to @to_city for @date",
+        "Book a flight from @from_city to @to_city on @date",
+        "Show me available flights from @from_city to @to_city on @date",
+        "Can you get me a flight ticket for @date?",
+        "Flight options from @from_city to @to_city on @date"
+      ]
+    },
+    {
+      "displayName": "HotelDetailsIntent",
+      "parameters": [
+        { "id": "location", "entityType": "@sys.geo-city", "isRequired": true }
+      ],
+      "trainingPhrases": [
+        "Find me a hotel in @location",
+        "Show me hotels in @location",
+        "I need a place to stay in @location",
+        "Are there any cheap hotels in @location?",
+        "Book a 5-star hotel in @location",
+        "Suggest some hotels near @location airport"
+      ]
+    },
+    {
+      "displayName": "ItineraryIntent",
+      "parameters": [
+        { "id": "destination", "entityType": "@sys.geo-city", "isRequired": true },
+        { "id": "days", "entityType": "@sys.number", "isRequired": true }
+      ],
+      "trainingPhrases": [
+        "Plan a @days-day itinerary for @destination",
+        "Give me a travel itinerary for @destination",
+        "What can I do in @destination for @days days?",
+        "Suggest a weekend itinerary for @destination",
+        "Create an itinerary for a week in @destination",
+        "Best things to do in @destination in @days days"
+      ]
+    },
+    {
+      "displayName": "FallbackIntent",
+      "trainingPhrases": [
+        "I don't know",
+        "Tell me something interesting",
+        "Can you help me?",
+        "I have a question",
+        "This is not what I was looking for",
+        "Say something funny"
+      ]
+    }
+  ]
+}
