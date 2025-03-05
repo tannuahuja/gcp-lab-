@@ -1,0 +1,68 @@
+TravelBot Project Overview
+
+Introduction:
+TravelBot is a smart chatbot designed to help users find flights, book hotels, and get travel itineraries across India. It is built using Google Cloud Dialogflow CX and connects to real-time travel data through a webhook.
+
+What TravelBot Can Do:
+
+Greet Users – Says hello and starts the conversation.
+
+Find Flights – Helps users search for flights by asking for the departure city, destination, and date.
+
+Book Hotels – Finds available hotels based on location and stay dates.
+
+Suggest Itineraries – Provides travel plans for different cities in India.
+
+Live Data Access – Uses a webhook to fetch real-time travel details.
+
+How It Works:
+
+The user asks a question (e.g., "Find a flight from Delhi to Mumbai on March 10").
+
+TravelBot understands the request and collects the required details.
+
+The webhook sends a request to a travel API for live data.
+
+The API returns the results (e.g., flight options, hotel availability, etc.).
+
+TravelBot presents the best options to the user.
+
+Setup Steps:
+
+Upload the Chatbot Flow:
+
+Use the travelbot_flow.json file and import it into Dialogflow CX.
+
+Connect the Webhook:
+
+TravelBot’s webhook is set up at:https://us-east4-l-ulti-tf-48hours-d55d.cloudfunctions.net/mytravelwebhook
+
+Ensure webhook integration is enabled in Dialogflow CX.
+
+Test the Bot:
+
+Try different queries and check responses.
+
+Example Conversations:
+
+Flight Search:
+
+User: "Find a flight from Delhi to Mumbai on March 10."
+
+TravelBot: "Here are the available flights: Flight XYZ123 at 10 AM, Flight ABC456 at 3 PM."
+
+Hotel Booking:
+
+User: "Book a hotel in Goa from March 15 to March 20."
+
+TravelBot: "Available hotels: Taj Exotica – ₹12,000 per night, Novotel Goa – ₹8,500 per night."
+
+Itinerary Suggestion:
+
+User: "Show me an itinerary for Kerala."
+
+TravelBot: "Here's a suggested plan: Day 1 – Munnar sightseeing, Day 2 – Houseboat stay in Alleppey, Day 3 – Beach day at Kovalam."
+
+
+
+  
