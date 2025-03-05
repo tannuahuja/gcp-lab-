@@ -1,3 +1,140 @@
+FLOW: 
+
+🔹 Travel Chatbot Flow Structure (Dialogflow CX)
+1️⃣ Start Node
+User initiates the conversation.
+Default Welcome Intent is triggered.
+2️⃣ Welcome Intent
+📌 User Says:
+
+"Hi"
+"Hello"
+"Hey there"
+"I want to book a trip"
+📌 Bot Response:
+
+"Welcome to TravelBot! How can I assist you today?"
+"I can help you with flights, hotels, and travel itineraries."
+"What would you like to do?"
+Options:
+✈️ Search Flights
+🏨 Find Hotels
+📍 Get Itinerary Suggestions
+3️⃣ Flight Search Flow
+📌 User Says:
+
+"Find a flight from Delhi to Mumbai."
+"I need a flight to Goa next week."
+📌 Captured Parameters:
+
+Departure City: departure_city
+Destination City: destination_city
+Travel Date: travel_date
+📌 Webhook Call:
+
+Sends request to https://us-east4-l-ulti-tf-48hours-d55d.cloudfunctions.net/mytravelwebhook
+Fetches real-time flight details from Amadeus API.
+📌 Bot Response (Dynamic):
+
+"Here are some flight options from Delhi to Mumbai on March 5th:"
+✈ IndiGo - ₹5,000 - 10:00 AM
+✈ Air India - ₹5,500 - 12:30 PM
+"Would you like to book one?"
+✅ Next Step:
+
+User confirms booking → Booking Confirmation Flow.
+User wants different flights → Ask for new inputs.
+4️⃣ Hotel Search Flow
+📌 User Says:
+
+"Find me a hotel in Bangalore."
+"Show budget hotels in Jaipur."
+📌 Captured Parameters:
+
+City: hotel_location
+Check-in Date: check_in_date
+Budget Range: budget
+📌 Webhook Call:
+
+Fetches real-time hotel listings from the API.
+📌 Bot Response (Dynamic):
+
+"Here are some hotels in Bangalore under ₹3,000/night:"
+🏨 Taj Bangalore - ₹2,800/night
+🏨 ITC Gardenia - ₹2,500/night
+"Would you like to book one?"
+✅ Next Step:
+
+User confirms booking → Booking Confirmation Flow.
+User wants different hotels → Ask for new inputs.
+5️⃣ Itinerary Suggestion Flow
+📌 User Says:
+
+"What are the best places to visit in Jaipur?"
+"Suggest an itinerary for Kerala."
+📌 Captured Parameters:
+
+Destination City: destination_city
+Trip Duration: trip_days
+📌 Webhook Call:
+
+Fetches recommended places based on user preference.
+📌 Bot Response (Dynamic):
+
+"Here is a 3-day itinerary for Jaipur:"
+📍 Day 1: Visit Amber Fort & City Palace
+📍 Day 2: Explore Hawa Mahal & Jantar Mantar
+📍 Day 3: Relax at Nahargarh Fort & Jal Mahal
+"Would you like me to arrange hotel bookings?"
+✅ Next Step:
+
+User confirms → Hotel Booking Flow.
+User wants a different itinerary → Adjust preferences.
+6️⃣ Booking Confirmation Flow
+📌 User Says:
+
+"Yes, book the flight."
+"Reserve a room at ITC Gardenia."
+📌 Bot Action:
+
+Calls Webhook to finalize the booking.
+Sends confirmation message with booking details.
+📌 Bot Response:
+
+"Your booking is confirmed! ✈️ Here’s your flight ticket:
+Flight: IndiGo, Delhi → Mumbai
+Date: March 5th, Time: 10:00 AM
+PNR: XYZ123
+"Would you like to book an airport cab?"
+✅ Next Step:
+
+User confirms → Cab Booking Flow.
+User says No → End Conversation.
+7️⃣ End Conversation
+📌 Bot Response:
+
+"Thank you for using TravelBot! Have a great trip! 🌍"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 TravelBot Project Overview
 
 Introduction:
