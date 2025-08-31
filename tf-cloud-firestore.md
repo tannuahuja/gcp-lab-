@@ -258,10 +258,74 @@ resource "google_storage_bucket" "default" {
 `gsutil ls gs://qwiklabs-gcp-01-8b5a4e9efa4a-my-terraform-bucket`
 
 
+--------------------------------------------------------------------------
+----------------------------------------------------------------------
+# service-account :
+`gcloud config set project qwiklabs-gcp-01-9f519b8b44fd`
+`gcloud config set compute/region us-central1`
+`gcloud config set compute/zone us-central1-f`
+`gcloud services enable iam.googleapis.com`
+
+- Create a Cloud Storage bucket. Ensure the bucket name is globally unique and prefixed with your project ID: qwiklabs-gcp-01-9f519b8b44fd
+`gcloud storage buckets create gs://qwiklabs-gcp-01-9f519b8b44fd-tf-state --project=qwiklabs-gcp-01-9f519b8b44fd --location=us-central1 --uniform-bucket-level-access`
+
+-Enable versioning on the GCS bucket:
+`gsutil versioning set on gs://qwiklabs-gcp-01-9f519b8b44fd-tf-state`
+
+- create a tf configuration file :
+`mkdir terraform-service-account && cd $_`
+
+#### main.tf
+```
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+  backend "gcs" {
+    bucket = "qwiklabs-gcp-01-9f519b8b44fd-tf-state"
+    prefix = "terraform/state"
+  }
+}
+
+provider "google" {
+  project = var.project_id
+  region  = var.region 
+}
+
+resource "google_service_account" "default" {
+  account_id   = "terraform-sa"
+  display_name = "Terraform Service Account"
+}
+```
+
+#### variables.tf 
+
+```
+variable "project_id" {
+  type = string
+  description = "The GCP project ID"
+  default = "qwiklabs-gcp-01-9f519b8b44fd"
+}
+
+variable "region" {
+  type = string
+  description = "The GCP region"
+  default = "us-central1"
+}
+```
+
+- after terraform apply --auto-approve
+- Verify that the service account has been created in the Google Cloud Console or using the gcloud CLI.
+
+`gcloud iam service-accounts list --project=qwiklabs-gcp-01-9f519b8b44fd`
 
 
 ---------------------------------------------------------------------------------
--------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
 `gcloud config set project qwiklabs-gcp-01-8b5a4e9efa4a`
 
 `gcloud config set compute/region us-central1`
