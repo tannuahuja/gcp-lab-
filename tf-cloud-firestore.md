@@ -370,7 +370,93 @@ output "firewall_name" {
 }
 ```
 
+> Navigate to **VPC network > Firewall** in the Google Cloud Console and verify the existence of the `allow-ssh-from-anywhere` firewall rule.
+-----------------------------------------------------------------
+--------------------------------------------------------------
 
+# terraform essentials : VPC and subnet 
+
+#### main.tf
+```
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+  backend "gcs" {
+    bucket = "qwiklabs-gcp-00-80aa73212cd9-terraform-state"
+    prefix = "terraform/state"
+  }
+}
+
+provider "google" {
+  project = "qwiklabs-gcp-00-80aa73212cd9"
+  region  = "us-west1"
+}
+
+resource "google_compute_network" "vpc_network" {
+  name                    = "custom-vpc-network"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "subnet_us" {
+  name            = "subnet-us"
+  ip_cidr_range   = "10.10.1.0/24"
+  region          = "us-west1"
+  network         = google_compute_network.vpc_network.id
+}
+
+resource "google_compute_firewall" "allow_ssh" {
+  name    = "allow-ssh"
+  network = google_compute_network.vpc_network.name
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "allow_icmp" {
+  name    = "allow-icmp"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "icmp"
+  }
+  source_ranges = ["0.0.0.0/0"]
+}
+```
+
+
+#### variables.tf
+```
+variable "project_id" {
+  type        = string
+  description = "The ID of the Google Cloud project"
+  default     = "qwiklabs-gcp-00-80aa73212cd9"
+}
+
+variable "region" {
+  type        = string
+  description = "The region to deploy resources in"
+  default     = "us-west1"
+}
+```
+
+#### outputs.tf
+```
+output "network_name" {
+  value       = google_compute_network.vpc_network.name
+  description = "The name of the VPC network"
+}
+
+output "subnet_name" {
+  value       = google_compute_subnetwork.subnet_us.name
+  description = "The name of the subnetwork"
+}
+```
 
 `gcloud config set project qwiklabs-gcp-01-8b5a4e9efa4a`
 
