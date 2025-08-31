@@ -326,6 +326,52 @@ variable "region" {
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 
+# Terraform Essentials: Firewall Policy
+
+#### firewall.tf
+```
+resource "google_compute_firewall" "allow_ssh" {
+  name    = "allow-ssh-from-anywhere"
+  network = "default"
+  project = "qwiklabs-gcp-02-75d8482bc286"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["ssh-allowed"]
+}
+```
+
+#### variables.tf
+```
+variable "project_id" {
+  type = string
+  default = "qwiklabs-gcp-02-75d8482bc286"
+}
+
+variable "bucket_name" {
+  type = string
+  default = "qwiklabs-gcp-02-75d8482bc286-tf-state"
+}
+
+variable "region" {
+  type = string
+  default = "us-west1"
+}
+```
+
+#### outputs.tf
+```
+output "firewall_name" {
+  value = google_compute_firewall.allow_ssh.name
+}
+```
+
+
+
 `gcloud config set project qwiklabs-gcp-01-8b5a4e9efa4a`
 
 `gcloud config set compute/region us-central1`
@@ -334,6 +380,6 @@ variable "region" {
 
 `terraform plan `
 
-`trraform apply`
+`trraform apply --auto-approve`
 
-`terraform destroy`
+`terraform destroy --auto-approve`
