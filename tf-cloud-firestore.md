@@ -1,4 +1,4 @@
-# terraform code: Terraform Essentials: Cloud Firestore Database
+# Terraform code: Terraform Essentials: Cloud Firestore Database
 
 ####  main.tf
 
@@ -208,7 +208,63 @@ resource "google_storage_bucket" "default" {
 -------------------------------------------------------------------------------
 ------------------------------------------------------------------------------
 
-# 
+# Terraform Essentials: Google Cloud Storage Bucket
+
+`gcloud storage buckets create gs://qwiklabs-gcp-01-8b5a4e9efa4a-tf-state --project=qwiklabs-gcp-01-8b5a4e9efa4a --location=us-central1 --uniform-bucket-level-access`
+
+`gsutil versioning set on gs://qwiklabs-gcp-01-8b5a4e9efa4a-tf-state`
+
+`mkdir terraform-gcs && cd $_`
+
+#### main.tf
+
+```
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+
+  backend "gcs" {
+    bucket = "qwiklabs-gcp-01-8b5a4e9efa4a-tf-state"
+    prefix = "terraform/state"
+  }
+}
+
+provider "google" {
+  project = "qwiklabs-gcp-01-8b5a4e9efa4a"
+  region  = "us-central1"
+}
+
+resource "google_storage_bucket" "default" {
+  name          = "qwiklabs-gcp-01-8b5a4e9efa4a-my-terraform-bucket"
+  location      = "us-central1"
+  force_destroy = true
+
+  storage_class = "STANDARD"
+  versioning {
+    enabled = true
+  }
+}
+```
+
+`terraform plan`
+
+-Enter the following command to validate the bucket has been created:
+
+
+`gsutil ls gs://qwiklabs-gcp-01-8b5a4e9efa4a-my-terraform-bucket`
+
+
+
+
+---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+`gcloud config set project qwiklabs-gcp-01-8b5a4e9efa4a`
+
+`gcloud config set compute/region us-central1`
 
 `terraform init`
 
