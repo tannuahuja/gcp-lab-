@@ -1,6 +1,6 @@
-// terraform code: Terraform Essentials: Cloud Firestore Database
+# terraform code: Terraform Essentials: Cloud Firestore Database
 
-##  main.tf
+####  main.tf
 
 ```
 terraform {
@@ -35,7 +35,7 @@ output "firestore_database_name" {
 ```
 
 
-## variables.tf
+#### variables.tf
 
 
 ```
@@ -53,7 +53,7 @@ variable "bucket_name" {
 ```
 
 
-### outputs.tf
+#### outputs.tf
 
 ```
 output "project_id" {
@@ -66,6 +66,149 @@ output "bucket_name" {
   description = "The name of the bucket to store terraform state."
 }
 ```
+
+----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+# Terraform Essentials: Google Compute Engine Instance
+
+
+-Create a Cloud Storage bucket. The bucket name must be globally unique and should include your project ID as a prefix.
+`gsutil mb -l "REGION" gs://"PROJECT_ID"-tf-state`
+
+- Enable versioning on the bucket. This allows you to revert to previous states if necessary.
+`gsutil versioning set on gs://"PROJECT_ID"-tf-state`
+
+#### main.tf
+```
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+  backend "gcs" {
+    bucket = ""PROJECT_ID"-tf-state"
+    prefix = "terraform/state"
+  }
+}
+
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+
+resource "google_compute_instance" "default" {
+  name         = "terraform-instance"
+  machine_type = "e2-micro"
+  zone         = var.zone
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-12"
+    }
+  }
+
+  network_interface {
+    subnetwork = "default"
+
+    access_config {
+    }
+  }
+}
+```
+
+#### variables.tf
+```
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+  backend "gcs" {
+    bucket = ""PROJECT_ID"-tf-state"
+    prefix = "terraform/state"
+  }
+}
+
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+
+resource "google_compute_instance" "default" {
+  name         = "terraform-instance"
+  machine_type = "e2-micro"
+  zone         = var.zone
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-12"
+    }
+  }
+
+  network_interface {
+    subnetwork = "default"
+
+    access_config {
+    }
+  }
+}
+```
+
+
+
+----------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+# Google Cloud Storage Bucket
+
+`gcloud storage buckets create gs://qwiklabs-gcp-04-d47df9b05b49-tf-state --project=qwiklabs-gcp-04-d47df9b05b49 --location=us-central1 --uniform-bucket-level-access`
+
+`gsutil versioning set on gs://qwiklabs-gcp-04-d47df9b05b49-tf-state`
+
+`mkdir terraform-gcs && cd $_`
+
+
+#### main.tf
+```
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+
+  backend "gcs" {
+    bucket = "qwiklabs-gcp-04-d47df9b05b49-tf-state"
+    prefix = "terraform/state"
+  }
+}
+
+provider "google" {
+  project = "qwiklabs-gcp-04-d47df9b05b49"
+  region  = "us-central1"
+}
+
+resource "google_storage_bucket" "default" {
+  name          = "qwiklabs-gcp-04-d47df9b05b49-my-terraform-bucket"
+  location      = "us-central1"
+  force_destroy = true
+
+  storage_class = "STANDARD"
+  versioning {
+    enabled = true
+  }
+}
+```
+
+-------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+
 
 `terraform init`
 
