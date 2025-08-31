@@ -1,4 +1,4 @@
-# Build an LLM and RAG-based Chat Application using AlloyDB and LangChain
+# Build an LLM and RAG-based Chat Application using AlloyDB and LangChain : 
 
 One of the best tools for reducing Gen AI hallucinations is to use Retrieval Augmented Generation (RAG). RAG is the concept of retrieving some data or information, then augmenting your prompt used with your Large Language Model (LLM), which allows it to generate more accurate responses based on the data included in the prompt.
 
