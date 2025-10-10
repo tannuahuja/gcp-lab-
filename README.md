@@ -1,4 +1,4 @@
-# gcp-lab
+# gcp-labs
 
 ### Analyzing Findings with Security Command Center
  
