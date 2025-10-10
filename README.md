@@ -1,4 +1,4 @@
-# Gcp-labs(arcade)
+# Gcp-labs (arcade)
 
 ### Analyzing Findings with Security Command Center
  
