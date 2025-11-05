@@ -1,4 +1,4 @@
-###### Create a function : Cloud Run Functions: Qwik Start - Console
+##### Create a function : Cloud Run Functions: Qwik Start - Console
 
 1. craete a function
 2. services -> cloud run ->
