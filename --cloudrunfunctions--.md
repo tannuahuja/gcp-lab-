@@ -47,4 +47,20 @@ ques: Which command do you use in Cloud Shell to deploy a container to Cloud Run
 -------------------------------------
 --------------------------------------------
 
-ques: 
+ques: In Google Cloud, how will you update the permissions within an existing custom role using a YAML file?
+- gcloud iam roles update
+
+ques: In Google Cloud, how will you grant a user a specific set of permissions not available in predefined roles?
+- custom role
+
+ques: From the command line, how will you launch your Flutter application on a connected device or simulator?
+- flutter run
+
+ques: Which command is used to create a new Flutter project from the command line?
+- flutter create
+
+ques: In a multi-screen Flutter app, how will you programmatically move from the first screen to the second?
+- navigator.push
+
+ques : How will you display a scrollable list of items that can be of varying lengths in your Flutter application?
+- listView
