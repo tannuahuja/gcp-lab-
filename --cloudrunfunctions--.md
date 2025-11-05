@@ -28,6 +28,10 @@ Example of the log history that displays in Results:
 
 
 
+--------------------------------------------------------
+----------------------------------------------------------------
+
+
 ques: How will you make a new Google Cloud Function accessible via a public URL?
 - http trigger
 
@@ -45,6 +49,14 @@ ques : Which Google Cloud service is used to build and deploy containerized appl
 
 ques: Which command do you use in Cloud Shell to deploy a container to Cloud Run?
 - gcloud run deploy
+
+
+ques: Cloud Run functions is a serverless execution environment for event driven services on Google Cloud.
+- true
+
+ques: Which type of trigger is used while creating Cloud Run functions in the lab?
+HTTPS
+
 
 -------------------------------------
 --------------------------------------------
