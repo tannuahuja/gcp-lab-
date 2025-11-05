@@ -92,5 +92,30 @@ ques: How will you allow your local machine's IP address to connect to a private
 ----------------------------------------
 -----------------------------
 
+ques: Which Google Cloud service lets you view metrics, logs, and uptime checks across multiple projects?
+- cloud monitoring
+
+ques: To give another user permission to view dashboards in Cloud Monitoring, you assign them which role?
+- monitoring viewer
+
+ques: In Google Cloud, how will you create a new GKE cluster from your command line?
+- gcloud container clusters create
+
+ques: In your Google Cloud GKE cluster, how will you list all the running pods in the default namespace?
+- kubectl get pods
+
+ques : How will you interact with Google Cloud Storage from your command line?
+- gsutil
+  
+ques :How will you create a new Google Cloud Storage bucket from your terminal?
+- gsutil mb
+
+ 
+
+
+
+
+
+
 
   
