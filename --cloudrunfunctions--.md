@@ -26,8 +26,108 @@ Example of the log history that displays in Results:
    <img width="2146" height="260" alt="image" src="https://github.com/user-attachments/assets/4eee1304-313c-4eec-8af8-49022763b737" />
    <img width="2146" height="260" alt="image" src="https://github.com/user-attachments/assets/e23379ac-04d3-4641-a8ac-46885d7ac41c" />
 
+-------------------
+## Cloud Run Functions: Qwik Start - Command Line
+
+```
+gcloud config set run/region us-east1
+mkdir gcf_hello_world && cd $_
+nano index.js
+```
+>> index.js
+```
+const functions = require('@google-cloud/functions-framework');
+
+// Register a CloudEvent callback with the Functions Framework that will
+// be executed when the Pub/Sub trigger topic receives a message.
+functions.cloudEvent('helloPubSub', cloudEvent => {
+  // The Pub/Sub message is passed as the CloudEvent's data payload.
+  const base64name = cloudEvent.data.message.data;
+
+  const name = base64name
+    ? Buffer.from(base64name, 'base64').toString()
+    : 'World';
+
+  console.log(`Hello, ${name}!`);
+});
+```
+
+>> package.json
+
+```
+{
+  "name": "gcf_hello_world",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.0.0"
+  }
+}
+```
+
+`npm install`
+
+#### Task 2. Deploy your function
+
+- Deploy the nodejs-pubsub-function function to a pub/sub topic named cf-demo
+
+```
+gcloud functions deploy nodejs-pubsub-function \
+  --gen2 \
+  --runtime=nodejs20 \
+  --region=us-east1 \
+  --source=. \
+  --entry-point=helloPubSub \
+  --trigger-topic cf-demo \
+  --stage-bucket qwiklabs-gcp-00-0059c431cf39-bucket \
+  --service-account cloudfunctionsa@qwiklabs-gcp-00-0059c431cf39.iam.gserviceaccount.com \
+  --allow-unauthenticated
+```
+
+```
+gcloud functions describe nodejs-pubsub-function \
+  --region=us-east1
+```
+
+#### task3 : test the function 
+
+```
+gcloud pubsub topics publish cf-demo --message="Cloud Function Gen2"
+```
+
+> view logs :
+
+`
+gcloud functions logs read nodejs-pubsub-function \
+  --region=us-east1 
+`
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------
 --------------------------------------------------------
 ----------------------------------------------------------------
 
