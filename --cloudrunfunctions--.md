@@ -69,3 +69,28 @@ ques : How will you display a scrollable list of items that can be of varying le
 
 -------------------------------------------
 -------------------------------------
+
+ques: In Google Cloud Monitoring, how will you organize a set of related resources, such as all your web server instances, to monitor them as a single unit?
+- group
+
+ques: In Google Cloud Monitoring, how will you get an automatic email when a VM's CPU usage is too high?
+- alerting group
+
+ques: In your Google Cloud VPC, how will you apply a firewall rule to a specific group of VMs?
+- network tag
+
+ques: Which command is used to apply a firewall rule in Google Cloud?
+- gcloud compute firewall-rules create
+
+ques: Which Google Cloud component allows nodes in a private cluster to access public repositories for pulling container images?
+- cloud NAT 
+
+ques: How will you allow your local machine's IP address to connect to a private Google Cloud GKE cluster's control plane?
+- Authorized networks
+
+
+
+
+
+
+  
