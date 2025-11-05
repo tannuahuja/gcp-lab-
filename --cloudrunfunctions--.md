@@ -25,6 +25,7 @@ Example of the log history that displays in Results:
    <img width="2146" height="260" alt="image" src="https://github.com/user-attachments/assets/e23379ac-04d3-4641-a8ac-46885d7ac41c" />
 
 
+
 ques: How will you make a new Google Cloud Function accessible via a public URL?
 - http trigger
 
@@ -43,3 +44,7 @@ ques : Which Google Cloud service is used to build and deploy containerized appl
 ques: Which command do you use in Cloud Shell to deploy a container to Cloud Run?
 - gcloud run deploy
 
+-------------------------------------
+--------------------------------------------
+
+ques: 
