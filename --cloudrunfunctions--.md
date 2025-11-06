@@ -8,7 +8,7 @@
 4. Still in the Create function dialog, in Source code for Inline editor use the default helloHttp function implementation already provided for index.js.
 5. Click SAVE and REDEPLOY to deploy the function.
 6. test the function
-7. On the function details dashboard, to test the function click TEST.
+7. On the function details dashboard, to test the function click TEST
 8. In the Triggering event field, enter the following text between the brackets {} 
 `"message":"Hello World!"`
 9. Copy the CLI test command and run it in the Cloud Shell. 
