@@ -296,7 +296,23 @@ gcloud beta pubsub subscriptions create pdf-conv-sub --topic new-doc --push-endp
 <img width="912" height="658" alt="image" src="https://github.com/user-attachments/assets/5bb693e4-7d90-44fb-9935-fd4cac794cde" />
 
 4. View your subnet and secondary address ranges
-5. 
+`gcloud compute networks subnets list --network default`
+
+5. In the output, find the name of the subnetwork that was automatically created for your cluster. For example, gke-private-cluster-subnet-xxxxxxxx. Save the name of the cluster, you'll use it in the next step.
+Now get information about the automatically created subnet, replacing SUBNET_NAME with your subnet by running:
+`gcloud compute networks subnets describe [SUBNET_NAME] --region=$REGION`
+
+6. Create a source instance which you'll use to check the connectivity to Kubernetes clusters:
+
+`gcloud compute instances create source-instance --zone=$ZONE --scopes 'https://www.googleapis.com/auth/cloud-platform'
+
+<img width="818" height="784" alt="image" src="https://github.com/user-attachments/assets/924b81a5-f873-48f1-b603-54cda9c849ce" />
+
+7. Get the <External_IP> of the source-instance with:
+`gcloud compute instances describe source-instance --zone=$ZONE | grep natIP`
+
+
+
 
 -------------------------------------------
 --------------------------------------------------------
