@@ -284,9 +284,19 @@ gcloud beta pubsub subscriptions create pdf-conv-sub --topic new-doc --push-endp
 
 # ---------  Setting up the private k8s cluster :  --------------
 
+1. Set the project region for this lab:
+`gcloud config set compute/zone us-west1-c`
+
+2. set region and zone :
+`export REGION=us-west1`
+`export ZONE=us-west1-c`
 
 
+3. creatinga private cluster :
+<img width="912" height="658" alt="image" src="https://github.com/user-attachments/assets/5bb693e4-7d90-44fb-9935-fd4cac794cde" />
 
+4. View your subnet and secondary address ranges
+5. 
 
 -------------------------------------------
 --------------------------------------------------------
