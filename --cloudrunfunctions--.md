@@ -15,7 +15,7 @@
 
 View logs from the service details page.
 
-On the Service Details page, click Observability and select Logs.
+On the Service Details page, click Observability and select Logs
 
 Example of the log history that displays in Results:
 
