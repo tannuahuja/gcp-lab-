@@ -282,7 +282,7 @@ gcloud beta pubsub subscriptions create pdf-conv-sub --topic new-doc --push-endp
 
 --------- # FLUTTER --------------
 
---------- # Setting up the private k8s cluster :  --------------
+# ---------  Setting up the private k8s cluster :  --------------
 
 
 
