@@ -386,7 +386,9 @@ ques: Which Google Cloud component allows nodes in a private cluster to access p
 
 ques: How will you allow your local machine's IP address to connect to a private Google Cloud GKE cluster's control plane?
 - Authorized networks
-  
+
+
+ [url for this lab](https://www.skills.google/games/6876/labs/42705) 
 
 ----------------------------------------
 -----------------------------
