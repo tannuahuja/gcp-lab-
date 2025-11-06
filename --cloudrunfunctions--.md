@@ -11,7 +11,7 @@
 7. On the function details dashboard, to test the function click TEST.
 8. In the Triggering event field, enter the following text between the brackets {} .
 `"message":"Hello World!"`
-9. Copy the CLI test command and run it in the Cloud Shell.
+9. Copy the CLI test command and run it in the Cloud Shell. 
 
 View logs from the service details page.
 
