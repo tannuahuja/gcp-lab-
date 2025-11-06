@@ -233,6 +233,10 @@ gcloud beta pubsub subscriptions create pdf-conv-sub --topic new-doc --push-endp
 ##### https://www.skills.google/games/6875/labs/42699
 
 #### https://github.com/Gaston-MaikMax/arcade/blob/main/GSP644/Build%20a%20Serverless%20App%20with%20Cloud%20Run%20that%20Creates%20PDF%20Files.md
+
+
+
+
 ------
 
 
@@ -311,7 +315,7 @@ Now get information about the automatically created subnet, replacing SUBNET_NAM
 7. Get the <External_IP> of the source-instance with:
 `gcloud compute instances describe source-instance --zone=$ZONE | grep natIP`
 
-
+[https://www.skills.google/games/6876/labs/42705](lab url )
 
 
 -------------------------------------------
