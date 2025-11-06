@@ -3,7 +3,7 @@
 ##### Create a function : Cloud Run Functions: Qwik Start - Console
 
 1. craete a function
-2. services -> cloud run ->
+2. services -> cloud run -> 
 3. deploy the function
 4. Still in the Create function dialog, in Source code for Inline editor use the default helloHttp function implementation already provided for index.js.
 5. Click SAVE and REDEPLOY to deploy the function.
