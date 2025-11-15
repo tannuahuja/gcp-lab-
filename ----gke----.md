@@ -1,4 +1,4 @@
-1. see cluster status  
+1. see cluster status
 `gcloud container clusters list`  
 
 2. You can also monitor the progress in the Cloud console by navigating to Navigation menu > Kubernetes Engine > Clusters.
