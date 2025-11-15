@@ -4,7 +4,7 @@
 2. You can also monitor the progress in the Cloud console by navigating to Navigation menu > Kubernetes Engine > Clusters.
 
 - Once your cluster has a RUNNING status, run the following command to get the cluster credentials:
-`gcloud container clusters get-credentials central --zone us-central1-c`
+`gcloud container clusters get-credentials central --zone us-central1-c` 
 
 3. Run the following command to verify that the nodes have been created:
 `kubectl get nodes`
