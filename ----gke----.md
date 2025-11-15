@@ -18,7 +18,7 @@
 
 `cd microservices-demo`
 
-In the Cloud Shell Editor's file Explorer, navigate to microservices-demo > release > kubernetes-manifests.yaml.
+In the Cloud Shell Editor's file Explorer, navigate to microservices-demo > release > kubernetes-manifests.yaml. 
 You can use the AI-powered features of Gemini Code Assist to make changes to your code directly in your code editor. In this instance, you decide to let Gemini Code Assist help explain the kubernetes-manifests.yaml file to support the onboarding of a new member in your team.
 
 Open the kubernetes-manifests.yaml file. This action enables Gemini Code Assist, as indicated by the presence of the Gemini Code Assist: Smart Actions icon in the upper-right corner of the editor.
